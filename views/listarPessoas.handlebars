@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Pessoas</title>
+    <style>
+        /* ======= Estilo Geral ======= */
+        body {
+            background-color: #0a0a0a;
+            color: #f5f5f5;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            background-color: #111;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+        }
+
+        header h1 {
+            color: #4fc3f7;
+            font-size: 2rem;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        h2 {
+            margin: 40px 0 20px 0;
+            color: #ccc;
+            font-weight: 500;
+        }
+
+        /* ======= Container da Lista ======= */
+        .lista-container {
+            background: linear-gradient(145deg, #141414, #1c1c1c);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            width: 90%;
+            max-width: 1500px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 20px;
+            scrollbar-width: thin;
+            scrollbar-color: #4fc3f7 #111;
+        }
+
+        /* Scroll estilizado (Chrome, Edge, etc.) */
+        .lista-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .lista-container::-webkit-scrollbar-thumb {
+            background-color: #4fc3f7;
+            border-radius: 8px;
+        }
+
+        .lista-container::-webkit-scrollbar-track {
+            background: #111;
+        }
+
+        /* ======= Lista ======= */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: #1c1c1c;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        li:hover {
+            background-color: #222;
+            transform: translateY(-2px);
+        }
+
+        .pessoa-nome {
+            font-weight: bold;
+            color: #4fc3f7;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .pessoa-nome:hover {
+            color: #81d4fa;
+        }
+
+        /* ======= Ações (botões laterais) ======= */
+        .acoes {
+            display: flex;
+            gap: 10px;
+        }
+
+        .editar {
+            background-color: #4fc3f7;
+            color: #000;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .editar:hover {
+            background-color: #81d4fa;
+        }
+
+        button {
+            background-color: #e53935;
+            border: none;
+            color: white;
+            padding: 11px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #ff5252;
+        }
+
+        /* ======= Botão Voltar ======= */
+        .voltar {
+            margin: 30px 0;
+            display: inline-block;
+            color: #4fc3f7;
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid #4fc3f7;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .voltar:hover {
+            background-color: #4fc3f7;
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Cadastro de Pessoas</h1>
+    </header>
+
+    <h2>Lista de Pessoas</h2>
+
+    <div class="lista-container">
+        <ul>
+            {{#each pessoas}}
+            <li>
+                <a href="/pessoas/ver/{{id}}" class="pessoa-nome">{{nome}}</a>
+
+                <div class="acoes">
+                    <a href="/pessoas/{{id}}/editar" class="editar">Editar</a>
+
+                    <form action="/pessoas/excluir/{{id}}" method="POST" style="display:inline;">
+                        <button type="submit" onclick="return confirm('Confirma exclusão?')">Excluir</button>
+                    </form>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+
+    <div style="height: 20px;" display="flex"; justify-content="center"; align-items="center"; flex-direction="column";>
+
+    <a href="/" class="voltar">← Voltar ao Início</a>
+    <a href="/pessoas/nova" class="editar">Adicionar Pessoa</a>
+
+    </div>
+
+</body>
+
+</html>

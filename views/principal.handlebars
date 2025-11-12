@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Estacionamentos</title>
+
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            padding: 40px 0 10px 0;
+            background-color: #111;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        h2 {
+            margin-top: 50px;
+            font-size: 20px;
+            color: #ccc;
+        }
+
+        .menu-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 40px 100px;
+        }
+
+        .menu-section {
+            background-color: #111;
+            border-radius: 12px;
+            width: 280px;
+            padding: 25px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .menu-section h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #4fc3f7;
+        }
+
+        .menu-section a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 6px;
+            background-color: #222;
+            transition: background-color 0.2s;
+        }
+
+        .menu-section a:hover {
+            background-color: #4fc3f7;
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Bem-vindo ao Gerenciador de Estacionamentos!</h1>
+    </header>
+
+    <h2>Selecione uma opção:</h2>
+
+    <div class="menu-container">
+        <!-- Pessoas -->
+        <div class="menu-section">
+            <h3>Pessoas</h3>
+            <a href="/pessoas">Listar Pessoas</a>
+            <a href="/pessoas/nova">Adicionar Pessoa</a>
+        </div>
+
+        <!-- Veículos -->
+        <div class="menu-section">
+            <h3>Veículos</h3>
+            <a href="/veiculos">Listar Veículos</a>
+            <a href="/veiculos/novo">Adicionar Veículo</a>
+        </div>
+
+        <!-- Vagas -->
+        <div class="menu-section">
+            <h3>Vagas</h3>
+            <a href="/vagas">Listar Vagas</a>
+            <a href="/vagas/nova">Adicionar Vaga</a>
+        </div>
+    </div>
+
+</body>
+
+</html>
