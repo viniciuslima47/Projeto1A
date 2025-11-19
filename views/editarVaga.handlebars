@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Vaga</title>
+    <title>Editar Vaga</title>
+
     <style>
         body {
             background-color: #0a0a0a;
@@ -34,47 +35,60 @@
         h2 {
             margin: 40px 0 20px 0;
             color: #ccc;
+            font-weight: 500;
         }
 
         form {
             background: linear-gradient(145deg, #141414, #1c1c1c);
             padding: 30px 40px;
             border-radius: 14px;
-            width: 90%;
-            max-width: 400px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
             display: flex;
             flex-direction: column;
             gap: 20px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+            width: 90%;
+            max-width: 400px;
         }
 
-        select, input[type="text"] {
+        input[type="text"],
+        select {
             width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
+            padding: 12px 15px;
             background-color: #222;
+            border: none;
             color: #fff;
+            border-radius: 8px;
+            font-size: 1rem;
         }
 
         button {
-            width: 100%;
-            padding: 12px;
             background-color: #4fc3f7;
             border: none;
+            padding: 12px 0;
+            border-radius: 8px;
             color: #000;
             font-weight: bold;
-            border-radius: 8px;
             cursor: pointer;
+            transition: .2s;
+        }
+
+        button:hover {
+            background-color: #81d4fa;
         }
 
         .voltar {
-            margin: 30px 0;
+            margin-top: 20px;
             color: #4fc3f7;
-            text-decoration: none;
             border: 1px solid #4fc3f7;
             padding: 10px 20px;
             border-radius: 8px;
+            text-decoration: none;
+            transition: .2s;
+        }
+
+        .voltar:hover {
+            background-color: #4fc3f7;
+            color: #000;
         }
     </style>
 </head>
@@ -82,18 +96,22 @@
 <body>
 
 <header>
-    <h1>Cadastrar Vaga</h1>
+    <h1>Editar Vaga</h1>
 </header>
 
-<h2>Nova Vaga</h2>
+<h2>Alterar Dados da Vaga</h2>
 
-<form action="/vagas" method="POST">
-    <input type="text" name="numero" placeholder="Número da Vaga" required>
+<form action="/vagas/{{vaga.id}}/editar" method="POST">
+    <input type="text" name="numero" value="{{vaga.numero}}" required>
 
     <select name="veiculoR">
         <option value="">Sem veículo</option>
+
         {{#each veiculos}}
-            <option value="{{this.id}}">{{this.modelo}} - {{this.placa}}</option>
+            <option value="{{id}}" 
+                {{#if (eq id ../vaga.veiculoR.id)}} selected {{/if}}>
+                {{modelo}} - {{placa}}
+            </option>
         {{/each}}
     </select>
 

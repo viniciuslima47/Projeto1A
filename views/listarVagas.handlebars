@@ -78,8 +78,8 @@
             margin-bottom: 10px;
         }
 
-        .col-modelo,
-        .col-placa {
+        .col-id,
+        .col-nome {
             flex: 1;
             text-align: left;
         }
@@ -112,7 +112,7 @@
             transform: translateY(-2px);
         }
 
-        .veiculo-modelo {
+        .vaga-modelo {
             font-weight: bold;
             color: #4fc3f7;
             text-decoration: none;
@@ -120,7 +120,7 @@
             flex: 1;
         }
 
-        .veiculo-modelo:hover {
+        .vaga-modelo:hover {
             color: #81d4fa;
         }
 
@@ -186,30 +186,30 @@
 
 <body>
     <header>
-        <h1>Cadastro de Veículos</h1>
+        <h1>Cadastro de Vagas</h1>
     </header>
 
-    <h2>Lista de Veículos</h2>
+    <h2>Lista de Vagas</h2>
 
     <div class="lista-container">
         <!-- Cabeçalho da Lista -->
         <div class="lista-header">
-            <div class="col-modelo">Id</div>
-            <div class="col-modelo">Modelo</div>
-            <div class="col-placa">Placa</div>
+            <div class="col-id">Id</div>
+            <div class="col-nome">Numero</div>
+            <div class="col-nome">Ocupada</div>
             <div class="col-acoes">Ações</div>
         </div>
 
         <ul>
-            {{#each veiculos}}
+            {{#each vagas}}
             <li>
-                <a href="/veiculos/ver/{{id}}" class="veiculo-modelo">{{id}}</a>
-                <a href="/veiculos/ver/{{id}}" class="veiculo-modelo">{{modelo}}</a>
-                <a href="/veiculos/ver/{{id}}" class="veiculo-modelo">{{placa}}</a>
+                <a href="/vagas/ver/{{id}}" class="vaga-modelo">{{id}}</a>
+                <a href="/vagas/ver/{{id}}" class="vaga-modelo">{{numero}}</a>
+                <a href="/vagas/ver/{{id}}" class="vaga-modelo">{{ocupada}}</a>
 
                 <div class="acoes">
-                    <a href="/veiculos/{{id}}/editar" class="editar">Editar</a>
-                    <form action="/veiculos/excluir/{{id}}" method="POST" style="display:inline;">
+                    <a href="/vagas/{{id}}/editar" class="editar">Editar</a>
+                    <form action="/vagas/excluir/{{id}}" method="POST" style="display:inline;">
                         <button type="submit" onclick="return confirm('Confirma exclusão?')">Excluir</button>
                     </form>
                 </div>
@@ -220,7 +220,7 @@
 
     <div class="botoes-finais">
         <a href="/" class="voltar">← Voltar ao Início</a>
-        <a href="/veiculos/novo" class="editar">+ Adicionar Veículo</a>
+        <a href="/vagas/novo" class="editar">+ Adicionar Veículo</a>
     </div>
 
 </body>

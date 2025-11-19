@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Vaga</title>
+    <title>Detalhar Pessoa</title>
     <style>
+        /* ======= Estilo Geral ======= */
         body {
             background-color: #0a0a0a;
             color: #f5f5f5;
@@ -15,6 +16,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
 
         header {
@@ -28,80 +30,76 @@
         header h1 {
             color: #4fc3f7;
             font-size: 2rem;
+            letter-spacing: 1px;
             margin: 0;
         }
 
         h2 {
             margin: 40px 0 20px 0;
             color: #ccc;
+            font-weight: 500;
         }
 
-        form {
+        /* ======= Card de Detalhes ======= */
+        .detalhes-container {
             background: linear-gradient(145deg, #141414, #1c1c1c);
-            padding: 30px 40px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
             border-radius: 14px;
             width: 90%;
-            max-width: 400px;
+            max-width: 500px;
+            padding: 30px;
+            text-align: left;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+            gap: 15px;
         }
 
-        select, input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background-color: #222;
-            color: #fff;
+        .detalhes-container p {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #ddd;
         }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #4fc3f7;
-            border: none;
-            color: #000;
+        .detalhes-container strong {
+            color: #4fc3f7;
             font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
         }
 
+        /* ======= Botão Voltar ======= */
         .voltar {
-            margin: 30px 0;
+            margin: 40px 0;
+            display: inline-block;
             color: #4fc3f7;
             text-decoration: none;
+            font-weight: bold;
             border: 1px solid #4fc3f7;
             padding: 10px 20px;
             border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .voltar:hover {
+            background-color: #4fc3f7;
+            color: #000;
         }
     </style>
 </head>
 
 <body>
+    <header>
+        <h1>Lista de Veículos</h1>
+    </header>
 
-<header>
-    <h1>Cadastrar Vaga</h1>
-</header>
+    <h2>Detalhes do Veículo</h2>
 
-<h2>Nova Vaga</h2>
+    <div class="detalhes-container">
+        <p><strong>ID:</strong> {{veiculo.id}}</p>
+        <p><strong>Modelo:</strong> {{veiculo.modelo}}</p>
+        <p><strong>Placa:</strong> {{veiculo.placa}}</p>
+        <p><strong>Cor:</strong> {{veiculo.cor}}</p>
+    </div>
 
-<form action="/vagas" method="POST">
-    <input type="text" name="numero" placeholder="Número da Vaga" required>
-
-    <select name="veiculoR">
-        <option value="">Sem veículo</option>
-        {{#each veiculos}}
-            <option value="{{this.id}}">{{this.modelo}} - {{this.placa}}</option>
-        {{/each}}
-    </select>
-
-    <button type="submit">Salvar</button>
-</form>
-
-<a href="/vagas" class="voltar">← Voltar</a>
-
+    <a href="/veiculos" class="voltar">← Voltar à Lista</a>
 </body>
 
 </html>

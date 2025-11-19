@@ -12,9 +12,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // ======== PESSOAS ======== //
 let pessoas = [
-    { id: 1, nome: "Pessoa 1" },
-    { id: 2, nome: "Pessoa 2" },
-    { id: 3, nome: "Pessoa 3" },
+    { id: 1, nome: "Lucas Silva", sexo: "Masculino" },
+    { id: 2, nome: "Camila Santos", sexo: "Feminino" },
+    { id: 3, nome: "Rafael Oliveira", sexo: "Masculino" },
 ];
 
 app.get('/', (req, res) => {
@@ -30,7 +30,9 @@ app.get('/pessoas/nova', (req, res) => res.render('cadastrarPessoa'));
 
 app.post('/pessoas', (req, res) => {
     const { nome } = req.body;
-    const novaPessoa = { id: pessoas.length + 1, nome };
+    const { sexo } = req.body;
+    const novaPessoa = { id: pessoas.length + 1, nome, sexo };
+
     pessoas.push(novaPessoa);
     res.render('listarPessoas', { pessoas });
 });
@@ -39,6 +41,7 @@ app.get('/pessoas/ver/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const pessoa = pessoas.find(p => p.id === id);
     if (!pessoa) return res.status(404).send('Pessoa não encontrada');
+    console.log(pessoa)
     res.render('detalharPessoa', { pessoa });
 });
 
@@ -67,12 +70,11 @@ app.post('/pessoas/excluir/:id', (req, res) => {
 
 // ======== VEÍCULOS ======== //
 let veiculos = [
-    { id: 1, modelo: "BMW I8", placa: "ABC-1234" },
-    { id: 2, modelo: "NISSAN GTR", placa: "DEF-5678" },
-    { id: 3, modelo: "Mercedes-Benz", placa: "GHI-9012" },
+    { id: 1, modelo: "BMW I8", placa: "ABC-1234", cor: "Branca" },
+    { id: 2, modelo: "NISSAN GTR", placa: "DEF-5678", cor: "Preto" },
+    { id: 3, modelo: "Mercedes-Benz", placa: "GHI-9012", cor: "Prata" },
 ];
 
-// ✅ Rota para listar veículos
 app.get('/veiculos', (req, res) => {
     res.render('listarVeiculos', { veiculos });
 });
@@ -82,12 +84,13 @@ app.get('/veiculos/novo', (req, res) => {
 });
 
 app.post('/veiculos', (req, res) => {
-    const { modelo, placa } = req.body;
+    const { modelo, placa, cor } = req.body;
 
     const novoVeiculo = {
         id: veiculos.length + 1,
         modelo,
-        placa
+        placa,
+        cor
     };
 
     veiculos.push(novoVeiculo);
@@ -114,6 +117,7 @@ app.post('/veiculos/:id/editar', (req, res) => {
     if (!veiculo) return res.status(404).send('Veículo não encontrado');
     veiculo.modelo = req.body.modelo;
     veiculo.placa = req.body.placa;
+    veiculo.cor = req.body.cor;
     res.render('listarVeiculos', { veiculos });
 });
 
@@ -124,6 +128,46 @@ app.post('/veiculos/excluir/:id', (req, res) => {
     veiculos.splice(index, 1);
     res.redirect('/veiculos');
 });
+
+// ======== VAGAS ========= //
+
+app.get('/vagas/:id/editar', (req, res) => {
+    const id = parseInt(req.params.id);
+    const vaga = vagas.find(v => v.id === id);
+    if (!vaga) return res.status(404).send("Vaga não encontrada");
+
+    res.render('editarVaga', { vaga, veiculos });
+});
+
+app.post('/vagas/:id/editar', (req, res) => {
+    const id = parseInt(req.params.id);
+    const vaga = vagas.find(v => v.id === id);
+    if (!vaga) return res.status(404).send("Vaga não encontrada");
+
+    vaga.numero = req.body.numero;
+
+    if (req.body.veiculoR) {
+        vaga.veiculoR = veiculos.find(v => v.id === parseInt(req.body.veiculoR));
+        vaga.ocupada = true;
+    } else {
+        vaga.veiculoR = null;
+        vaga.ocupada = false;
+    }
+
+    res.redirect('/vagas');
+});
+
+app.post('/vagas/excluir/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const index = vagas.findIndex(v => v.id === id);
+
+    if (index === -1) return res.status(404).send("Vaga não encontrada");
+
+    vagas.splice(index, 1);
+
+    res.redirect('/vagas');
+});
+
 
 // ======== SERVIDOR ======== //
 app.listen(port, () => {
