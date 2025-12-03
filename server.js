@@ -69,10 +69,10 @@ app.post('/pessoas/excluir/:id', (req, res) => {
 });
 
 // ======== VEÍCULOS ======== //
+
 let veiculos = [
-    { id: 1, modelo: "BMW I8", placa: "ABC-1234", cor: "Branca" },
-    { id: 2, modelo: "NISSAN GTR", placa: "DEF-5678", cor: "Preto" },
-    { id: 3, modelo: "Mercedes-Benz", placa: "GHI-9012", cor: "Prata" },
+    { id: 1, modelo: "NISSAN GTR", placa: "DEF-5678", cor: "Preto" },
+    { id: 2, modelo: "Mercedes-Benz", placa: "GHI-9012", cor: "Prata" }
 ];
 
 app.get('/veiculos', (req, res) => {
@@ -130,13 +130,53 @@ app.post('/veiculos/excluir/:id', (req, res) => {
 });
 
 // ======== VAGAS ========= //
+let vagas = [
+    { id: 1, numero: 1, ocupada: false, veiculoId: 1 },
+    { id: 2, numero: 2, ocupada: true, veiculoId: null },
+    { id: 3, numero: 3, ocupada: false, veiculoId: 2 }
+];
 
+// ======= LISTAR VAGAS ======= //
+app.get('/vagas', (req, res) => {
+    const vagasComVeiculo = vagas.map(v => ({
+        ...v,
+        veiculo: veiculos.find(vc => vc.id === v.veiculoId) || null
+    }));
+    res.render('listarVagas', { vagas: vagasComVeiculo });
+});
+
+// ======= CADASTRAR VAGA ======= //
+app.get('/vagas/nova', (req, res) => {
+    const veiculosLivres = veiculos.filter(v => !vagas.some(vaga => vaga.veiculoId === v.id));
+    res.render('cadastrarVaga', { veiculos: veiculosLivres });
+});
+
+app.post('/vagas', (req, res) => {
+    const { numero, ocupada, veiculoR } = req.body;
+
+    const estaOcupada = ocupada === "sim";
+
+    const novaVaga = {
+        id: vagas.length + 1,
+        numero: parseInt(numero),
+        ocupada: estaOcupada,
+        veiculoId: estaOcupada && veiculoR ? parseInt(veiculoR) : null
+    };
+
+    vagas.push(novaVaga);
+    res.redirect('/vagas');
+});
+
+// ======= EDITAR VAGA ======= //
 app.get('/vagas/:id/editar', (req, res) => {
     const id = parseInt(req.params.id);
     const vaga = vagas.find(v => v.id === id);
     if (!vaga) return res.status(404).send("Vaga não encontrada");
 
-    res.render('editarVaga', { vaga, veiculos });
+    // Veículos livres + veículo atual da vaga
+    const veiculosDisponiveis = veiculos.filter(v => !vagas.some(vg => vg.veiculoId === v.id) || v.id === vaga.veiculoId);
+
+    res.render('editarVaga', { vaga, veiculos: veiculosDisponiveis });
 });
 
 app.post('/vagas/:id/editar', (req, res) => {
@@ -144,30 +184,36 @@ app.post('/vagas/:id/editar', (req, res) => {
     const vaga = vagas.find(v => v.id === id);
     if (!vaga) return res.status(404).send("Vaga não encontrada");
 
-    vaga.numero = req.body.numero;
+    const { numero, ocupada, veiculoR } = req.body;
+    const estaOcupada = ocupada === "sim";
 
-    if (req.body.veiculoR) {
-        vaga.veiculoR = veiculos.find(v => v.id === parseInt(req.body.veiculoR));
-        vaga.ocupada = true;
-    } else {
-        vaga.veiculoR = null;
-        vaga.ocupada = false;
-    }
+    vaga.numero = parseInt(numero);
+    vaga.ocupada = estaOcupada;
+    vaga.veiculoId = estaOcupada && veiculoR ? parseInt(veiculoR) : null;
 
     res.redirect('/vagas');
 });
 
+// ======= DETALHAR VAGA ======= //
+app.get('/vagas/ver/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const vaga = vagas.find(v => v.id === id);
+    if (!vaga) return res.status(404).send("Vaga não encontrada");
+
+    const veiculo = veiculos.find(v => v.id === vaga.veiculoId) || null;
+    res.render('detalharVaga', { vaga, veiculo });
+});
+
+
+// ======= EXCLUIR VAGA ======= //
 app.post('/vagas/excluir/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const index = vagas.findIndex(v => v.id === id);
-
     if (index === -1) return res.status(404).send("Vaga não encontrada");
 
     vagas.splice(index, 1);
-
     res.redirect('/vagas');
 });
-
 
 // ======== SERVIDOR ======== //
 app.listen(port, () => {
