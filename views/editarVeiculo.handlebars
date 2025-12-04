@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Veículo</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            width: 100%;
+            background-color: #111;
+            padding: 20px 0;
+            text-align: center;
+        }
+        header h1 {
+            color: #4fc3f7;
+            margin: 0;
+        }
+        form {
+            margin-top: 30px;
+            background-color: #151515;
+            padding: 25px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 350px;
+        }
+        input {
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background-color: #222;
+            color: #fff;
+        }
+        button {
+            background-color: #4fc3f7;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        a {
+            margin-top: 20px;
+            color: #4fc3f7;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Editar Veículo</h1>
+</header>
+
+<form action="/veiculos/{{veiculo.id}}/editar" method="POST">
+
+    <input type="text" name="modelo" value="{{veiculo.modelo}}" required>
+    <input type="text" name="placa" value="{{veiculo.placa}}" required>
+    <input type="text" name="cor" value="{{veiculo.cor}}" required>
+
+    <button type="submit">Salvar Alterações</button>
+</form>
+
+<a href="/veiculos">← Voltar</a>
+
+</body>
+</html>
+
+</body>
+</html>
